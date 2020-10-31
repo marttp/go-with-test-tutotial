@@ -4,6 +4,16 @@ import (
 	"reflect"
 )
 
+func getValue(x interface{}) reflect.Value {
+	val := reflect.ValueOf(x)
+
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem()
+	}
+
+	return val
+}
+
 func walk(x interface{}, fn func(input string)) {
 	val := getValue(x)
 
@@ -36,14 +46,4 @@ func walk(x interface{}, fn func(input string)) {
 			walk(res.Interface(), fn)
 		}
 	}
-}
-
-func getValue(x interface{}) reflect.Value {
-	val := reflect.ValueOf(x)
-
-	if val.Kind() == reflect.Ptr {
-		val = val.Elem()
-	}
-
-	return val
 }
